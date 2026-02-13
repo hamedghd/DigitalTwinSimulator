@@ -21,13 +21,16 @@ namespace DigitalTwinSimulator.Services
                     Rpm = _random.Next(1000, 5000)
                 };
                 // Here you would typically send this data to a message queue or database
-                Console.WriteLine(
-                    $"Time: {sensorData.Timestamp:HH:mm:ss} | " +
-                    $"Temp: {sensorData.Temperature:F2}°C | " +
-                    $"Pressure: {sensorData.Pressure:F2} bar | " +
-                    $"Vibration: {sensorData.Vibration:F2} mm/s | " +
-                    $"RPM: {sensorData.Rpm:F2}"
-                    );
+                if (sensorData != null)
+                {
+                    Console.WriteLine(
+                        $"Time: {sensorData.Timestamp:HH:mm:ss} | " +
+                        $"Temp: {sensorData.Temperature:F2}°C | " +
+                        $"Pressure: {sensorData.Pressure:F2} bar | " +
+                        $"Vibration: {sensorData.Vibration:F2} mm/s | " +
+                        $"RPM: {sensorData.Rpm:F2}"
+                        );
+                }
                 // Wait for a short period before generating the next data point
                 await Task.Delay(2000, stoppingToken);
             }
