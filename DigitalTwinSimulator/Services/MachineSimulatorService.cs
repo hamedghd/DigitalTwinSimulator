@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using DigitalTwinSimulator.Models;
 
 namespace DigitalTwinSimulator.Services
 {
@@ -11,7 +12,7 @@ namespace DigitalTwinSimulator.Services
             while (!stoppingToken.IsCancellationRequested)
             {
                 // Simulate machine data generation
-                var sensorData = new
+                var sensorData = new SensorData
                 {
                     Timestamp = DateTime.UtcNow,
                     Temperature = _random.Next(20, 100),
