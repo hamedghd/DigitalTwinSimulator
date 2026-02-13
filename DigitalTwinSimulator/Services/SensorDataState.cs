@@ -21,6 +21,10 @@ namespace DigitalTwinSimulator.Services
             }
         }
 
-        private void NotifyStateChanged() => OnChange?.Invoke();
+        private void NotifyStateChanged()
+        {
+            Console.WriteLine($"NotifyStateChanged fired. Subscribers: {OnChange?.GetInvocationList().Length ?? 0}");
+            OnChange?.Invoke();
+        }
     }
 }

@@ -6,7 +6,13 @@ namespace DigitalTwinSimulator.Services
     public class MachineSimulatorService : BackgroundService
     {
         private readonly Random _random = new();
+        private readonly SensorDataState? _state;
 
+        public MachineSimulatorService(SensorDataState state)
+        {
+            _state = state;
+            Console.WriteLine($"Simulator State Hash: {_state.GetHashCode()}");
+        }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
@@ -20,6 +26,12 @@ namespace DigitalTwinSimulator.Services
                     Vibration = _random.Next(0, 5),
                     Rpm = _random.Next(1000, 5000)
                 };
+
+                Console.WriteLine("Updating state");
+
+                // update the shared state
+                _state.CurrentData = sensorData;
+
                 // Here you would typically send this data to a message queue or database
                 if (sensorData != null)
                 {

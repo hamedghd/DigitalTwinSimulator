@@ -1,0 +1,39 @@
+﻿@page "/dashboard"
+@rendermode InteractiveServer
+@implements IDisposable
+@inject DigitalTwinSimulator.Services.SensorDataState SensorState
+
+
+<h3>Machine Dashboard</h3>
+
+@if (SensorState.CurrentData == null)
+{
+    <p>No data yet...</p>
+}
+else
+{
+    <div>
+        <p><strong>Timestamp:</strong> @SensorState.CurrentData.Timestamp</p>
+        <p><strong>Temperature:</strong> @SensorState.CurrentData.Temperature °C</p>
+        <p><strong>Pressure:</strong> @SensorState.CurrentData.Pressure bar</p>
+        <p><strong>Vibration:</strong> @SensorState.CurrentData.Vibration mm/s</p>
+        <p><strong>RPM:</strong> @SensorState.CurrentData.Rpm</p>
+    </div>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        SensorState.OnChange += OnSensorDataChanged;
+    }
+
+    private async void OnSensorDataChanged()
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        SensorState.OnChange -= OnSensorDataChanged;
+    }
+}
